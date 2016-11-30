@@ -15,7 +15,7 @@ $ cd ..
 Sync the database
 $ source ./env/bin/activate
 $ cd web/scalica
-$ python manage.py makemigrations micro
+$ python manage.py makemigrations micro (if something fucks up, install everything from line 7 or 4 or django) <--- env
 $ python manage.py migrate
 
 
