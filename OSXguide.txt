@@ -1,0 +1,82 @@
+Making sure Postgres runs:
+
+Get the Postgres app, isn't that elephant cute?
+run it and make sure it's on port 5432. You can close it to quit it, or open psql to get the psql command line. 
+
+You should probably do this:
+https://postgresapp.com/documentation/cli-tools.html
+
+so that stuff can actually find it. 
+
+
+
+
+
+
+Making sure Django Runs: 
+Oh my, ok. Look up how to install:
+
+django
+django-debug-toolbar
+sqlparse
+
+probably brew or pip install 
+Look these up on the internet for more info.
+
+There may be other dependencies required, just install them. 
+
+
+
+
+
+Making Django tango with PG:
+
+The goal here is to set up a psql databae with username and password that allow django to talk to it. Port 5432 is hardcoded in Scalica (by me) so that's fine. 
+
+Make sure Postgres is actually running as well. 
+
+open psql through the elephant or type psql in the command line(assuming the environmental variable is set up)
+
+!!!!!!!!!!!!!!!!
+We need to execute the code below except:
+if you look at /db/scalica.sql, you'll see that we need to create a database called scalica, and add a user called appserver with password foobarzoot
+
+So execute the sql queries below but with those substitutions. 
+!!!!!!!!!!!!!!!!!!
+
+
+
+////////////////////////////////////////////////////////////
+CREATE DATABASE myproject;
+
+CREATE USER myprojectuser WITH PASSWORD 'password';
+
+ALTER ROLE myprojectuser SET client_encoding TO 'utf8';
+
+ALTER ROLE myprojectuser SET default_transaction_isolation TO 'read committed';
+
+ALTER ROLE myprojectuser SET timezone TO 'UTC';
+
+GRANT ALL PRIVILEGES ON DATABASE myproject TO myprojectuser;
+////////////////////////////////////////////////////////////
+
+
+
+then you have to do some combination of 
+
+python manage.py makemigrations micro
+python manage.py migrate
+
+(if that doesn't work it might be scalica instead of micro but I'm pretty sure it's micro)
+
+if you noticed in scalica.sql, there is a second user called www-data that cannot be added manually as a user, good job, because I didn't...
+
+you have to run some combination of 
+
+python manage.py migrate auth
+python manage.py migrate
+
+
+Now, cross your fingers and you should be able to start the server with POSTGRESQL
+
+python manage.py runserver
