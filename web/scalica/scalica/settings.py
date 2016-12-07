@@ -100,13 +100,24 @@ WSGI_APPLICATION = 'scalica.wsgi.application'
 
 
 # Database
+#DATABASES = {
+#  'default': {
+#    'ENGINE': 'django.db.backends.mysql',
+#    'OPTIONS': {
+#      'read_default_file': os.path.join(BASE_DIR, '..', '..', 'db', 'my.cnf'),
+#    },
+#  }
+#}
+
 DATABASES = {
-  'default': {
-    'ENGINE': 'django.db.backends.mysql',
-    'OPTIONS': {
-      'read_default_file': os.path.join(BASE_DIR, '..', '..', 'db', 'my.cnf'),
-    },
-  }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'scalica',
+        'USER': 'myprojectuser',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
 
 # Database routers go here:
