@@ -11,17 +11,14 @@
  {{ my_post.text }} ({{ my_post.pub_date|naturaltime }})
 {% endif %}
 </div>
-<div id="search">
-  <form action="/micro/search/" method="post">
+<div id="post">
+  <form action="/micro/post/" method="post">
     {% csrf_token %}
-    Find nearby Art:<br>
-    <input type="text" name="lastname" placeholder="eg.Soho or 10022 or New York" style="width: 300px;"><br>
+    {{ post_form.text }}
     <input type="submit" value="Post" />
   </form>
 </div>
 <p>
-<h2> For now, this is posts by people you follow. </h3>
-<h3> TODO: Change to people you follow</h3>
 <div>
 {% if post_list %}
   <table id="postlist">

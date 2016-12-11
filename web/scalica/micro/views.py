@@ -19,6 +19,9 @@ def index(request):
 def anon_home(request):
   return render(request, 'micro/public.html')
 
+def search(request):
+	return render(request, 'micro/search.html')
+
 def stream(request, user_id):  
   # See if to present a 'follow' button
   form = None
