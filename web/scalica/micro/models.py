@@ -3,42 +3,57 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.db import models
 from django.forms import ModelForm, TextInput
+from django.contrib.gis.db import models
+from django.contrib.gis.db.models import PointField
+from django.db.models.functions import Cast
+from django.contrib.gis.utils import GeoIP
 
 class Post(models.Model):
   user = models.ForeignKey(settings.AUTH_USER_MODEL)
-  text = models.CharField(max_length=256, default="")
-  pub_date = models.DateTimeField('date_posted')
-  def __str__(self):
-    if len(self.text) < 16:
-      desc = self.text
-    else:
-      desc = self.text[0:16]
-    return self.user.username + ':' + desc
+  title = models.CharField(max_length=256,default=””)
+  caption = models.CharField(max_length=256, default="")
+  upvotes = models.IntegerField()
+  downvotes = models.IntegerField()
+  QRcode = models.ImageField()
+  file = models.ImageFIeld(upload_to=’imgs’) 
+ #get image filepath from here, convert to url in html 
+    pub_date = models.DateTimeField('date_posted')
+city = models.CharField(max_length=256,default=””)
+
+#get information from PostForm
+locationID = models.OneToOneField(Address)
+g = GeoIP()
+lat, lng = g.lat_lon(user_ip)
+
+Zipcode.objects.annotate(
+  geom=Cast(‘geography_field’, PointField())
+).filter(geom_within=poly)
+
+Class Address(models.Model):
+  name = models.CharField(max_length=100)
+  num = models.IntegerField()
+  street = models.CharField(max_length=100)
+  city = models.CharField(max_length=100)
+  state = models.CharField(max_length=100)
+  zipcode = models.ForeignKey(Zipcode, on_delete=CASCADE)
+  postID = models.OneToOneField(Post)
 
 
-class Following(models.Model):
-  follower = models.ForeignKey(settings.AUTH_USER_MODEL,
-                               related_name="user_follows")
-  followee = models.ForeignKey(settings.AUTH_USER_MODEL,
-                               related_name="user_followed")
-  follow_date = models.DateTimeField('follow data')
-  def __str__(self):
-    return self.follower.username + "->" + self.followee.username
 
 
 # Model Forms
 class PostForm(ModelForm):
   class Meta:
     model = Post
-    fields = ('text',)
+    fields = ['title’',’caption’,’file’,’city’]
     widgets = {
-      'text': TextInput(attrs={'id' : 'input_post'}),
+      'title': TextInput(attrs={'id' : 'input_post'}),
+      'caption': TextInput(attrs={'id' : 'input_post'}),
     }
 
-class FollowingForm(ModelForm):
-  class Meta:
-    model = Following
-    fields = ('followee',)
+#to successfully upload file <form enctype="multipart/form-data" method="post" action="/foo/">
+
+
 
 class MyUserCreationForm(UserCreationForm):
   class Meta(UserCreationForm.Meta):
