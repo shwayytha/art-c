@@ -1,52 +1,132 @@
-{% extends "micro/base.html" %}
-{% load humanize %}
+<!doctype html>
 {% load staticfiles %}
-{% block sidebar %}
-<img src="{% static "micro/images/user.png" %}" alt="Generic User"/> <br>
-{{ user.username }} <p>
-{% endblock %}
-{% block content %}
-<div id="status">
-{% if my_post %}
- {{ my_post.text }} ({{ my_post.pub_date|naturaltime }})
-{% endif %}
-</div>
-<div id="search">
-  <form action="/micro/search/" method="post">
-    {% csrf_token %}
-    Find nearby Art:<br>
-    <input type="text" name="lastname" placeholder="eg.Soho or 10022 or New York" style="width: 300px;"><br>
-    <input type="submit" value="Post" />
-  </form>
-</div>
-<p>
-<h2> For now, this is posts by people you follow. </h3>
-<h3> TODO: Change to people you follow</h3>
-<div>
-{% if post_list %}
-  <table id="postlist">
-    {% for post in post_list %}
-      <tr>
-        <td>
-          <img src="{% static "micro/images/user_s.png" %}" alt="Generic User"/>
-        </td>
-        <td>
-          {{ post.text }}
-        </td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>
-          <a href="{% url 'micro:stream' post.user_id %}">
-            {{ post.user.username }}
-          </a>
-          ({{ post.pub_date|naturaltime }})
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
-{% else %}
-  <p>No posts are available.</p>
-{% endif %}
-</div>
-{% endblock %}
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Project Polaroid</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'micro/style.css' %}" />
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- Add your site or application content here -->
+    <div id="nav">
+        <div class="left">
+            <a href="/micro">
+                <div class="logo">Project <span>POLAROID</span></div>
+            </a>
+        </div>
+        <!-- if not logged in show this -->
+        <div class="nav-isNotVisIfMobile">
+            <div class="item">
+                <a href="/micro/login/">Login</a>
+            </div>
+        </div>
+        <!--         if logged in show this
+        <div class="nav-isNotVisIfMobile">
+            <div class="item">
+                <a href="/Post">Post</a>
+            </div>
+        </div> -->
+    </div>
+    <div id='content'>
+        <div id='search' class="container container--header">
+            <form method="POST" action="/">
+                <input type="text" name="cityLocation" placeholder="What's your zip code?">
+                <input type="submit" value="Search" class="btn">
+                <h3>Collection of street art made by local artists.</h3>
+            </form>
+        </div>
+        <div class="home-container">
+            <ul>
+                <li class="mix" style="display: inline-block;">
+                    <a href="http://google.com/" target="_blank">
+                        <div class="card card--resource ">
+                            <!--Resource-->
+                            <div class="card-hero" style="background-image: url({% static "micro/images/art.jpg" %}">
+                            </div>
+                            <div class="card-body">
+                                <div class="card-title">Work Title</div>
+                                <p class="card-description">Caption blah blah blah blah Caption blah blahblah blah</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="card-footer-wrapper">
+                                    <div class="card-type">Artist</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li class="mix" style="display: inline-block;">
+                    <a href="http://google.com/" target="_blank">
+                        <div class="card card--resource ">
+                            <!--Resource-->
+                            <div class="card-hero" style="background-image: url({% static "micro/images/art.jpg" %}">
+                            </div>
+                            <div class="card-body">
+                                <div class="card-title">Work Title</div>
+                                <p class="card-description">Caption blah blah blah blah Caption blah blahblah blah</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="card-footer-wrapper">
+                                    <div class="card-type">Artist</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li class="mix" style="display: inline-block;">
+                    <a href="http://google.com/" target="_blank">
+                        <div class="card card--resource ">
+                            <!--Resource-->
+                            <div class="card-hero" style="background-image: url({% static "micro/images/art.jpg" %}">
+                            </div>
+                            <div class="card-body">
+                                <div class="card-title">Work Title</div>
+                                <p class="card-description">Caption blah blah blah blah Caption blah blahblah blah</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="card-footer-wrapper">
+                                    <div class="card-type">Artist</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="footer">
+        <div id="end-mark">
+            <p class="copyright">Project Polaroid © 2016&nbsp;&nbsp;·&nbsp;&nbsp;<a href="http://cs.nyu.edu/courses/fall16/CSCI-UA.0480-005/index.html" target="_blank">Large Scale Web Apps</a></p>
+        </div>
+    </div>
+    <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script>
+    window.jQuery || document.write('<script src="js/vendor/jquery-1.12.4.min.js"><\/script>')
+    </script>
+    <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+    <script>
+    window.ga = function() {
+        ga.q.push(arguments)
+    };
+    ga.q = [];
+    ga.l = +new Date;
+    ga('create', 'UA-XXXXX-Y', 'auto');
+    ga('send', 'pageview')
+    </script>
+    <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+</body>
+
+</html>
