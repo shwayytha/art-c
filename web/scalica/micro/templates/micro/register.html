@@ -1,10 +1,98 @@
-{% extends "micro/base.html" %}
-{% block content %}
-<form action="/micro/register/" method="post">
-<table class="registerTable">
-  {% csrf_token %}
-  {{ form.as_table }}
-</table>
-  <input type="submit" value="Submit" />
-</form>
-{% endblock %}
+<!doctype html>
+{% load staticfiles %}
+<html>
+  
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Project Polaroid</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'micro/style.css' %}" />
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- Add your site or application content here -->
+    <div id="nav">
+        <div class="left">
+            <a href="index.html">
+                <div class="logo">Project <span>POLAROID</span></div>
+            </a>
+        </div>
+        <!-- if not logged in show this -->
+        <div class="nav-isNotVisIfMobile">
+            <div class="item">
+                <a href="/Login">Login</a>
+            </div>
+        </div>
+        <!--         if logged in show this
+        <div class="nav-isNotVisIfMobile">
+            <div class="item">
+                <a href="/Post">Post</a>
+            </div>
+        </div> -->
+    </div>
+    <div id='content'>
+        <!-- change starts here         -->
+        <div class="signinContainer">
+            <div class="signIn">
+                <h1>Signup</h1>
+                <form method="POST" action="/micro/register/">
+                  <table class="registerTable">
+                    {% csrf_token %}
+                    {{ form.as_table }}
+                  </table>
+                  <input type="submit" value="Submit" />
+<!--
+                  {% csrf_token %}
+                    <input type="text" name="first_name" placeholder="First Name" required>
+                    <br>
+                    <input type="text" name="last_name" placeholder="Last Name" required>
+                    <br>
+                    <input type="text" name="username" placeholder="Username" required>
+                    <br>
+                    <input type="text" name="password" placeholder="Password" required>
+                    <br>
+                  
+                    <input type="text" name="password2" placeholder="Password Confirmation" required>
+                    <br>
+                    <input type="submit" value="Submit" class="btn">
+-->
+                </form>
+                <hr>
+                <p>Already have an account? <a href="/micro/login">Login</a></p>
+            </div>
+        </div>
+        <!-- change ends here -->
+    </div>
+    <div id="footer">
+        <div id="end-mark">
+            <p class="copyright">Project Polaroid © 2016&nbsp;&nbsp;·&nbsp;&nbsp;<a href="http://cs.nyu.edu/courses/fall16/CSCI-UA.0480-005/index.html" target="_blank">Large Scale Web Apps</a></p>
+        </div>
+    </div>
+    <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script>
+    window.jQuery || document.write('<script src="js/vendor/jquery-1.12.4.min.js"><\/script>')
+    </script>
+    <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+    <script>
+    window.ga = function() {
+        ga.q.push(arguments)
+    };
+    ga.q = [];
+    ga.l = +new Date;
+    ga('create', 'UA-XXXXX-Y', 'auto');
+    ga('send', 'pageview')
+    </script>
+    <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+</body>
+
+</html>
