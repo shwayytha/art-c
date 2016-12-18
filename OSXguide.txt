@@ -60,6 +60,8 @@ ALTER ROLE myprojectuser SET timezone TO 'UTC';
 GRANT ALL PRIVILEGES ON DATABASE scalica TO myprojectuser;
 
 CREATE EXTENSION postgis;
+
+ALTER USER myprojectuser WITH SUPERUSER;
 ////////////////////////////////////////////////////////////
 
 
