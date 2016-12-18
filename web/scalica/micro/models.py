@@ -8,6 +8,10 @@ class Post(models.Model):
   user = models.ForeignKey(settings.AUTH_USER_MODEL)
   text = models.CharField(max_length=256, default="")
   pub_date = models.DateTimeField('date_posted')
+  votes = models.BigIntegerField(default = 0)
+  lon = models.FloatField()
+  lat = models.FloatField()
+
   def __str__(self):
     if len(self.text) < 16:
       desc = self.text

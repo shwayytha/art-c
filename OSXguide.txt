@@ -39,7 +39,7 @@ open psql through the elephant or type psql in the command line(assuming the env
 
 !!!!!!!!!!!!!!!!
 We need to execute the code below except:
-if you look at /db/scalica.sql, you'll see that we need to create a database called scalica, and add a user called appserver with password foobarzoot
+if you look at /db/scalica.sql, you'll see that we need to create a database called scalica, and add a user called myprojectuser with password password
 
 So execute the sql queries below but with those substitutions. 
 !!!!!!!!!!!!!!!!!!
@@ -47,7 +47,7 @@ So execute the sql queries below but with those substitutions.
 
 
 ////////////////////////////////////////////////////////////
-CREATE DATABASE myproject;
+CREATE DATABASE scalica;
 
 CREATE USER myprojectuser WITH PASSWORD 'password';
 
@@ -57,7 +57,9 @@ ALTER ROLE myprojectuser SET default_transaction_isolation TO 'read committed';
 
 ALTER ROLE myprojectuser SET timezone TO 'UTC';
 
-GRANT ALL PRIVILEGES ON DATABASE myproject TO myprojectuser;
+GRANT ALL PRIVILEGES ON DATABASE scalica TO myprojectuser;
+
+CREATE EXTENSION postgis;
 ////////////////////////////////////////////////////////////
 
 
