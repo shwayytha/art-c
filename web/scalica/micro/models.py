@@ -9,8 +9,9 @@ class Post(models.Model):
   text = models.CharField(max_length=256, default="")
   pub_date = models.DateTimeField('date_posted')
   votes = models.BigIntegerField(default = 0)
-  lon = models.FloatField()
-  lat = models.FloatField()
+  url = models.URLField(max_length=200)
+  lon = models.FloatField(default="40.7128")
+  lat = models.FloatField(default="74.0059")
 
   def __str__(self):
     if len(self.text) < 16:
