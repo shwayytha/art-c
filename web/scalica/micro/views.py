@@ -12,10 +12,10 @@ from .models import Following, Post, FollowingForm, PostForm, MyUserCreationForm
 # Anonymous views
 #################
 def index(request):
-  if request.user.is_authenticated():
+  # if request.user.is_authenticated():
     return home(request)
-  else:
-    return anon_home(request)
+  # else:
+  #   return anon_home(request)
 
 def anon_home(request):
   return render(request, 'micro/public.html')
@@ -82,20 +82,28 @@ def register(request):
 
 # Authenticated views
 #####################
-@login_required
+# @login_required
 def home(request):
-  '''List of recent posts by people I follow'''
-  try:
-    my_post = Post.objects.filter(user=request.user).order_by('-pub_date')[0]
-  except IndexError:
-    my_post = None
-  follows = [o.followee_id for o in Following.objects.filter(
-    follower_id=request.user.id)]
+  # '''List of recent posts by people I follow'''
+  # try:
+  #   my_post = Post.objects.filter(user=request.user).order_by('-pub_date')[0]
+  # except IndexError:
+  #   my_post = None
+  # follows = [o.followee_id for o in Following.objects.filter(
+  #   follower_id=request.user.id)]
+  global logedIn
+  if request.user.is_authenticated():
+    logedIn = True
+  else:
+    logedIn = False
+  print(logedIn)
+
   post_list = Post.objects.all()
   context = {
     'post_list': post_list,
-    'my_post' : my_post,
-    'post_form' : PostForm
+    # 'my_post' : my_post,
+    # 'post_form' : PostForm
+    'logedIn': logedIn 
   }
   return render(request, 'micro/home.html', context)
 

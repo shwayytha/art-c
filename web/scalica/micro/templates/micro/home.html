@@ -27,18 +27,24 @@
                 <div class="logo">Project <span>POLAROID</span></div>
             </a>
         </div>
-        <!-- if not logged in show this -->
+        
+        {% if logedIn %}
+        <div class="nav-isNotVisIfMobile">
+            <div class="item">
+                <a href="{% url 'micro:post' %}">Post</a>
+            </div>
+            <div class="item">
+                <a href="{% url 'micro:logout' %}">Log Out</a>
+            </div>
+        </div>
+        {% else %}
         <div class="nav-isNotVisIfMobile">
             <div class="item">
                 <a href="/micro/login/">Login</a>
             </div>
         </div>
-        <!--         if logged in show this
-        <div class="nav-isNotVisIfMobile">
-            <div class="item">
-                <a href="/Post">Post</a>
-            </div>
-        </div> -->
+        {% endif %}
+
     </div>
     <div id='content'>
         <div id='search' class="container container--header">
