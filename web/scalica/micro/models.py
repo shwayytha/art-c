@@ -29,7 +29,7 @@ Zipcode.objects.annotate(
   geom=Cast(‘geography_field’, PointField())
 ).filter(geom_within=poly)
 
-Class Address(models.Model):
+class Address(models.Model):
   name = models.CharField(max_length=100)
   num = models.IntegerField()
   street = models.CharField(max_length=100)
