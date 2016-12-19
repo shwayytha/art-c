@@ -9,9 +9,11 @@ class Post(models.Model):
   text = models.CharField(max_length=256, default="")
   pub_date = models.DateTimeField('date_posted')
   votes = models.BigIntegerField(default = 0)
-  url = models.URLField(max_length=200 default="")
+  url = models.URLField(max_length=200, default="")
   lon = models.FloatField(default="40.7128")
   lat = models.FloatField(default="74.0059")
+
+  mpoint = models.PointField(srid=4326, null=True, blank=True)
 
   def __str__(self):
     if len(self.text) < 16:
@@ -35,9 +37,10 @@ class Following(models.Model):
 class PostForm(ModelForm):
   class Meta:
     model = Post
-    fields = ('text',)
+    fields = ('text','url')
     widgets = {
       'text': TextInput(attrs={'id' : 'input_post'}),
+      'url': TextInput(attrs={'id' : 'url'}),
     }
 
 class FollowingForm(ModelForm):
