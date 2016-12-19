@@ -1,8 +1,59 @@
-{% extends "micro/base.html" %}
-{% block content %}
-<form action="/micro/post/" method="post">
-  {% csrf_token %}
-  {{ form }}
-  <input type="submit" value="Submit" />
-</form>
-{% endblock %}
+<!doctype html>
+<html>
+{% load staticfiles %}
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Project Polaroid</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'micro/style.css' %}">
+</head>
+
+<body>
+	<div id="nav">
+        <div class="left">
+            <a href="/micro">
+                <div class="logo">Project <span>POLAROID</span></div>
+            </a>
+        </div>
+        <!-- if not logged in show this -->
+        {% if logedIn %}
+        <div class="nav-isNotVisIfMobile">
+            <div class="item">
+                <a href="{% url 'micro:post' %}">Post</a>
+            </div>
+            <div class="item">
+                <a href="{% url 'micro:logout' %}">Log Out</a>
+            </div>
+        </div>
+        {% else %}
+        <div class="nav-isNotVisIfMobile">
+            <div class="item">
+                <a href="login">Login</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <div id='content'>
+        <div class="signinContainer">
+            <div class="signIn">
+                <h1>New Post</h1>
+				{% block content %}
+				<form action="/micro/post/" method="post">
+				  {% csrf_token %}
+				  {{ form }}
+				  <br>
+				  <input type="submit" value="Submit" class="btn" />
+				</form>
+				{% endblock %}
+			</div>
+		</div>
+	</div>
+</body>

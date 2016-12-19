@@ -324,3 +324,23 @@ ul {
     color: #4080FF;
     font-weight: bold;
 }
+
+label {
+    display: none !important;
+}
+
+label [for="input_post"]{
+    display: none !important;
+}
+
+label [for="url"]{
+    display: none !important;
+}
+
+label [for="latitude"]{
+    display: none !important;
+}
+
+label [for="longtitude"]{
+    display: none !important;
+}

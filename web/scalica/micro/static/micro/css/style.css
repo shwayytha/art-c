@@ -301,6 +301,22 @@ ul {
     padding: 10px;
 }
 
+label [for="input_post"]{
+    display: none !important;
+}
+
+label [for="url"]{
+    display: none !important;
+}
+
+label [for="latitude"]{
+    display: none !important;
+}
+
+label [for="longtitude"]{
+    display: none !important;
+}
+
 .signinContainer input[type='password'] {
     border: 0;
     border-radius: 0;

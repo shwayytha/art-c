@@ -37,10 +37,10 @@ class PostForm(ModelForm):
     model = Post
     fields = ('text','url', 'latitude', 'longtitude')
     widgets = {
-      'text': TextInput(attrs={'id' : 'input_post'}),
-      'url': TextInput(attrs={'id' : 'url'}),
-      'latitude': TextInput(attrs={'id' : 'latitude'}),
-      'longtitude': TextInput(attrs={'id' : 'longtitude'})
+      'text': TextInput(attrs={'id' : 'input_post', 'placeholder':'Text'}),
+      'url': TextInput(attrs={'id' : 'url', 'placeholder':'URL'}),
+      'latitude': TextInput(attrs={'id' : 'latitude', 'placeholder':'Latitude'}),
+      'longtitude': TextInput(attrs={'id' : 'longtitude', 'placeholder':'Longitude'})
     }
 
 class FollowingForm(ModelForm):
