@@ -20,6 +20,7 @@ class Post(models.Model):
       desc = self.text[0:16]
     return self.user.username + ':' + desc
 
+
 class Following(models.Model):
   follower = models.ForeignKey(settings.AUTH_USER_MODEL,
                                related_name="user_follows")
@@ -28,6 +29,7 @@ class Following(models.Model):
   follow_date = models.DateTimeField('follow data')
   def __str__(self):
     return self.follower.username + "->" + self.followee.username
+
 
 # Model Forms
 class PostForm(ModelForm):
