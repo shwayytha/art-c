@@ -15,7 +15,7 @@ class Post(models.Model):
   upvotes = models.IntegerField()
   downvotes = models.IntegerField()
   QRcode = models.ImageField()
-  file = models.ImageFIeld(upload_to=’imgs’) 
+  file = models.ImageField(upload_to=’imgs’) 
   pub_date = models.DateTimeField('date_posted')
   city = models.CharField(max_length=256,default=””)
   locationID = models.OneToOneField(Address) #get information from PostForm
