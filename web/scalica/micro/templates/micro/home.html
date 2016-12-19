@@ -53,10 +53,11 @@
 
 		  <!--AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH -->
                 <li class="mix" style="display: inline-block;">
-                    <a href="http://google.com/" target="_blank">
+
                        	    {% if post_list %}
 			    {% for post in post_list %}
 			    <div class="card card--resource ">
+                    <a href="/micro/post/{{post.id}}" target="_blank">
                             <!--Resource-->
                             <div class="card-hero" style="background-image: url({{post.url}})">
 
