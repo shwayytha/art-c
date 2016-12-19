@@ -18,11 +18,9 @@ class Post(models.Model):
   file = models.ImageFIeld(upload_to=’imgs’) 
   pub_date = models.DateTimeField('date_posted')
   city = models.CharField(max_length=256,default=””)
-
-#get information from PostForm
-locationID = models.OneToOneField(Address)
-g = GeoIP()
-lat, lng = g.lat_lon(user_ip)
+  locationID = models.OneToOneField(Address) #get information from PostForm
+  g = GeoIP()
+  lat, lng = g.lat_lon(user_ip)
 
 Zipcode.objects.annotate(
   geom=Cast(‘geography_field’, PointField())
@@ -37,9 +35,6 @@ class Address(models.Model):
   zipcode = models.ForeignKey(Zipcode, on_delete=CASCADE)
   postID = models.OneToOneField(Post)
 
-
-
-
 # Model Forms
 class PostForm(ModelForm):
   class Meta:
@@ -51,8 +46,6 @@ class PostForm(ModelForm):
     }
 
 #to successfully upload file <form enctype="multipart/form-data" method="post" action="/foo/">
-
-
 
 class MyUserCreationForm(UserCreationForm):
   class Meta(UserCreationForm.Meta):
