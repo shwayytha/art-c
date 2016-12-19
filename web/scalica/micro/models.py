@@ -16,9 +16,8 @@ class Post(models.Model):
   downvotes = models.IntegerField()
   QRcode = models.ImageField()
   file = models.ImageFIeld(upload_to=’imgs’) 
- #get image filepath from here, convert to url in html 
-    pub_date = models.DateTimeField('date_posted')
-city = models.CharField(max_length=256,default=””)
+  pub_date = models.DateTimeField('date_posted')
+  city = models.CharField(max_length=256,default=””)
 
 #get information from PostForm
 locationID = models.OneToOneField(Address)
