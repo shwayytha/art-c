@@ -42,7 +42,7 @@
     </div>
     <div id='content'>
         <div id='search' class="container container--header">
-	<form method="POST" action="/">
+            <form method="POST" action="/">
                 <input type="text" name="cityLocation" placeholder="What's your zip code?">
                 <input type="submit" value="Search" class="btn">
                 <h3>Collection of street art made by local artists.</h3>
@@ -50,22 +50,16 @@
         </div>
         <div class="home-container">
             <ul>
-
-		  <!--AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH -->
                 <li class="mix" style="display: inline-block;">
                     <a href="http://google.com/" target="_blank">
-                       	    {% if post_list %}
-			    {% for post in post_list %}
-			    <div class="card card--resource ">
+                        <div class="card card--resource ">
                             <!--Resource-->
-                            <div class="card-hero" style="background-image: url({{post.url}})">
-
-			    </div>
+                            <div class="card-hero" style="background-image: url({% static "micro/images/art.jpg" %}">
+                            </div>
                             <div class="card-body">
-                                <div class="card-title">{{ post.title }}</div>
-				<p>({{ post.pub_date }})
-                                <p class="card-description">{{ post.text}}</p>
-		    	   </div>
+                                <div class="card-title">Work Title</div>
+                                <p class="card-description">Caption blah blah blah blah Caption blah blahblah blah</p>
+                            </div>
                             <div class="card-footer">
                                 <div class="card-footer-wrapper">
                                     <div class="card-type">Artist</div>
@@ -74,9 +68,42 @@
                         </div>
                     </a>
                 </li>
-		{% endfor %}
-		{% endif %}
- 		 <!--AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH -->
+                <li class="mix" style="display: inline-block;">
+                    <a href="http://google.com/" target="_blank">
+                        <div class="card card--resource ">
+                            <!--Resource-->
+                            <div class="card-hero" style="background-image: url({% static "micro/images/art.jpg" %}">
+                            </div>
+                            <div class="card-body">
+                                <div class="card-title">Work Title</div>
+                                <p class="card-description">Caption blah blah blah blah Caption blah blahblah blah</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="card-footer-wrapper">
+                                    <div class="card-type">Artist</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li class="mix" style="display: inline-block;">
+                    <a href="http://google.com/" target="_blank">
+                        <div class="card card--resource ">
+                            <!--Resource-->
+                            <div class="card-hero" style="background-image: url({% static "micro/images/art.jpg" %}">
+                            </div>
+                            <div class="card-body">
+                                <div class="card-title">Work Title</div>
+                                <p class="card-description">Caption blah blah blah blah Caption blah blahblah blah</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="card-footer-wrapper">
+                                    <div class="card-type">Artist</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

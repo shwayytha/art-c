@@ -23,7 +23,7 @@ def anon_home(request):
 def search(request):
 	return render(request, 'micro/search.html')
 
-def stream(request, user_id):  
+def stream(request, user_id):
   # See if to present a 'follow' button
   form = None
   if request.user.is_authenticated() and request.user.id != int(user_id):
@@ -40,7 +40,7 @@ def stream(request, user_id):
     posts = paginator.page(page)
   except PageNotAnInteger:
     # If page is not an integer, deliver first page.
-    posts = paginator.page(1) 
+    posts = paginator.page(1)
   except EmptyPage:
     # If page is out of range (e.g. 9999), deliver last page of results.
     posts = paginator.page(paginator.num_pages)
@@ -50,6 +50,19 @@ def stream(request, user_id):
     'form' : form,
   }
   return render(request, 'micro/stream.html', context)
+
+def getpost(request, post_id):
+  if request.user.is_authenticated():
+      post = Post.objects.get(
+      id = post_id)
+      print(post.text)
+      print(post.url)
+      print(post.mpoint)
+      context = {
+        'post': post,
+      }
+      return render(request, 'micro/postindiv.html', context)
+#  return render(request, 'micro/postindiv.html', context)
 
 def register(request):
   if request.method == 'POST':
@@ -78,8 +91,7 @@ def home(request):
     my_post = None
   follows = [o.followee_id for o in Following.objects.filter(
     follower_id=request.user.id)]
-  post_list = Post.objects.filter(
-      user_id__in=follows).order_by('-pub_date')[0:10]
+  post_list = Post.objects.all()
   context = {
     'post_list': post_list,
     'my_post' : my_post,
