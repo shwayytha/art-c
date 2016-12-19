@@ -6,6 +6,7 @@ from django.forms import ModelForm, TextInput
 
 class Post(models.Model):
   user = models.ForeignKey(settings.AUTH_USER_MODEL)
+  title = models.CharField(max_length=256, default="")
   text = models.CharField(max_length=256, default="")
   pub_date = models.DateTimeField('date_posted')
   votes = models.BigIntegerField(default = 0)
@@ -35,8 +36,9 @@ class Following(models.Model):
 class PostForm(ModelForm):
   class Meta:
     model = Post
-    fields = ('text','url', 'latitude', 'longtitude')
+    fields = ('title','text','url', 'latitude', 'longtitude')
     widgets = {
+      'title': TextInput(attrs={'id' : 'input_post'}),
       'text': TextInput(attrs={'id' : 'input_post'}),
       'url': TextInput(attrs={'id' : 'url'}),
       'latitude': TextInput(attrs={'id' : 'latitude'}),
