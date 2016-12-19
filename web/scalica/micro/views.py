@@ -5,6 +5,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
+from django.contrib.gis.geos import Point
 from .models import Following, Post, FollowingForm, PostForm, MyUserCreationForm
 
 
@@ -94,6 +95,7 @@ def post(request):
     new_post = form.save(commit=False)
     new_post.user = request.user
     new_post.pub_date = timezone.now()
+    new_post.mpoint = Point(new_post.longtitude, new_post.latitude)
     new_post.save()
     return home(request)
   else:
