@@ -97,10 +97,12 @@ def home(request):
   else:
     logedIn = False
   print(logedIn)
+  # user = User.objects.get(pk=user_id)
 
   post_list = Post.objects.all()
   context = {
     'post_list': post_list,
+    # 'user': user,
     # 'my_post' : my_post,
     # 'post_form' : PostForm
     'logedIn': logedIn 

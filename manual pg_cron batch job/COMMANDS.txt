@@ -1,0 +1,19 @@
+At 0259 hours, goes through all posts and gets the top ones, nd puts them into
+topposts.
+
+SELECT cron.schedule('59 2 * * *', $$SELECT * INTO topposts FROM from posts order by votes desc limit 10
+$$);
+
+
+
+# Add Citus Data package repository
+curl https://install.citusdata.com/community/deb.sh | sudo bash
+
+# Install the pg_cron extension
+sudo apt-get -y install postgresql-9.6-pgcron
+
+# add to postgresql.conf:
+shared_preload_libraries = 'pg_cron'
+
+#if not done,
+CREATE EXTENSION pg_cron;
