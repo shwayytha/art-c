@@ -2,9 +2,9 @@ version: 0.0
 os: linux
 files:
    - source: /
-     destination: /var/www/html
+     destination: /DARIOLAND/index.html
 permissions:
-   - object: /var/www/html
+   - object: /DARIOLAND/index.html
      pattern: "**"
      owner: apache
      group: apache
