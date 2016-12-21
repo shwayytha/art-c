@@ -21,6 +21,22 @@ class Post(models.Model):
       desc = self.text[0:16]
     return self.user.username + ':' + desc
 
+class TopPost(models.Model):
+  user = models.ForeignKey(settings.AUTH_USER_MODEL)
+  title = models.CharField(max_length=256, default="")
+  text = models.CharField(max_length=256, default="")
+  pub_date = models.DateTimeField('date_posted')
+  votes = models.BigIntegerField(default = 0)
+  url = models.URLField(max_length=200, default="")
+  latitude = models.FloatField(default="40.7128")
+  longtitude = models.FloatField(default="74.0059")
+  mpoint = models.PointField(srid=4326, null=True, blank=True)
+  def __str__(self):
+    if len(self.text) < 16:
+      desc = self.text
+    else:
+      desc = self.text[0:16]
+    return self.user.username + ':' + desc
 
 class Following(models.Model):
   follower = models.ForeignKey(settings.AUTH_USER_MODEL,
