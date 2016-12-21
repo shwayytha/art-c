@@ -20,7 +20,11 @@ def anon_home(request):
   return render(request, 'micro/public.html')
 
 def search(request):
-	return render(request, 'micro/search.html')
+  post_list = Post.objects.filter(location__dwithin=(point.location, Distance(km=radius))) # make the "parameters" work  
+  context = { 
+  'post_list': post_list,
+  }
+	return render(request, 'micro/search.html', context)
 
 def stream(request, user_id):  
   # See if to present a 'follow' button
