@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
 from django.contrib.gis.geos import Point
-from .models import Following, Post, FollowingForm, PostForm, MyUserCreationForm
+from .models import TopPost, Following, Post, FollowingForm, PostForm, MyUserCreationForm
 
 
 # Anonymous views
@@ -105,7 +105,27 @@ def home(request):
     # 'user': user,
     # 'my_post' : my_post,
     # 'post_form' : PostForm
-    'logedIn': logedIn 
+    'logedIn': logedIn
+  }
+  return render(request, 'micro/home.html', context)
+
+def toppost(request):
+
+  global logedIn
+  if request.user.is_authenticated():
+    logedIn = True
+  else:
+    logedIn = False
+  print(logedIn)
+  # user = User.objects.get(pk=user_id)
+
+  post_list = TopPost.objects.all()
+  context = {
+    'post_list': post_list,
+    # 'user': user,
+    # 'my_post' : my_post,
+    # 'post_form' : PostForm
+    'logedIn': logedIn
   }
   return render(request, 'micro/home.html', context)
 
