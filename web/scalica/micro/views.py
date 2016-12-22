@@ -7,6 +7,14 @@ from django.shortcuts import render
 from django.utils import timezone
 from django.contrib.gis.geos import Point
 from .models import Following, Post, FollowingForm, PostForm, MyUserCreationForm
+#for sharding
+import math 
+#from utils.hints import set_user_for_sharding
+#from routers import bucket_users_into_shards
+#from processor import processor
+import psycopg2
+from psycopg2.extras import RealDictCursor
+import sys
 
 
 # Anonymous views
@@ -53,15 +61,31 @@ def stream(request, user_id):
 
 def getpost(request, post_id):
   if request.user.is_authenticated():
-      post = Post.objects.get(
-      id = post_id)
-      print(post.text)
-      print(post.url)
-      print(post.mpoint)
-      context = {
-        'post': post,
-      }
-      return render(request, 'micro/postindiv.html', context)
+ #     post = Post.objects.get(id = post_id)
+ #     print(post.text)
+ #     print(post.url)
+ #     print(post.mpoint)
+
+    post = []
+    for i in range(1,37):
+        conn_string = "host='localhost' dbname='scalica' user='myprojectuser' password='password'"
+        conn = psycopg2.connect(conn_string)
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        tb = "micro_post_"+str(int(i))
+        query = "SELECT * FROM "+tb+" WHERE id="+str(post_id)
+        try:
+            cursor.execute(query)
+            post = cursor.fetchall()
+            if post:
+                break            
+        except:
+            pass
+        
+    conn.close()
+    context = {'post': post[0] }
+    print(post)
+      
+    return render(request, 'micro/postindiv.html', context)
 #  return render(request, 'micro/postindiv.html', context)
 
 def register(request):
@@ -98,13 +122,55 @@ def home(request):
     logedIn = False
   print(logedIn)
 
-  post_list = Post.objects.all()
+  post_list = []
+  for i in range(1,37):
+    conn_string = "host='localhost' dbname='scalica' user='myprojectuser' password='password'"
+    conn = psycopg2.connect(conn_string)
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    tb = "micro_post_"+str(int(i))
+    query = "SELECT * FROM "+tb
+    try:
+        cursor.execute(query)
+        post_list = post_list + cursor.fetchall()
+    except:
+        pass 
+    
+  conn.close()
+    
+      
+ # post_list = Post.objects.all()
+
+  #post_lists = Post.objects.filter(user_id=request.GET['longitude']).order_by('-pub_date')posts = Post.objects.filter(user_id=request.user.id).order_by('-pub_date')
+  noNearBy = False
+  #search 
+  if (request.method == 'POST') & (request.POST.get('longitude')!=None):
+    conn_string = "host='localhost' dbname='scalica' user='myprojectuser' password='password'"
+    conn = psycopg2.connect(conn_string)
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    lon = request.POST.get('longitude')
+
+    num = math.ceil(float(lon)/10)
+    if(float(lon) <=0):
+        num = math.ceil((float(lon)+360)/10)
+        print(num)
+    shard = "micro_post_"+str(int(num))
+    query = "SELECT * FROM "+shard+";"
+    try:
+        cursor.execute(query)
+        post_list = cursor.fetchall()
+        conn.close()
+    except:
+        noNearBy=True 
+  #search
+    
   context = {
     'post_list': post_list,
     # 'my_post' : my_post,
     # 'post_form' : PostForm
+    'noNearby':noNearBy,
     'logedIn': logedIn 
   }
+                       
   return render(request, 'micro/home.html', context)
 
 # Allows to post something and shows my most recent posts.
@@ -112,11 +178,32 @@ def home(request):
 def post(request):
   if request.method == 'POST':
     form = PostForm(request.POST)
-    new_post = form.save(commit=False)
-    new_post.user = request.user
-    new_post.pub_date = timezone.now()
-    new_post.mpoint = Point(new_post.longtitude, new_post.latitude)
-    new_post.save()
+    if form.is_valid():
+        new_post = form.save(commit=False)
+        new_post.user = request.user
+        new_post.pub_date = timezone.now()
+        new_post.mpoint = Point(new_post.longtitude, new_post.latitude)
+ #   new_post.save()
+
+        conn_string = "host='localhost' dbname='scalica' user='myprojectuser' password='password'"
+        conn = psycopg2.connect(conn_string)
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+
+        num = math.ceil(new_post.longtitude/10)
+        if(new_post.longtitude <=0):
+            num = math.ceil((new_post.longtitude+360)/10)
+    
+        table = "micro_post_"+str(int(num))
+        shard = "CREATE TABLE IF NOT EXISTS public."+table+"() INHERITS (micro_post);"
+    
+        query = ("INSERT INTO %s (text,pub_date,votes,url,latitude,longtitude,mpoint,user_id,title) VALUES ('%s',now(),%s,'%s',%s,%s,ST_SetSRID(ST_MakePoint(%s,%s),4326),%s,'%s');"%
+                (table, new_post.text,new_post.votes,new_post.url,new_post.latitude,new_post.longtitude,new_post.latitude,new_post.longtitude,new_post.user.id,new_post.title) )
+ #   cursor.execute(shard)
+ #   if(new_post.is_valid()):
+        cursor.execute(shard+query,[str(new_post.mpoint)])
+        conn.commit()
+ #                  (table, new_post.id,new_post.text,new_post.pub_date,new_post.votes,new_post.url,new_post.latitude,new_post.longtitude,str(new_post.mpoint),new_post.user.id,new_post.title) )
+ #   new_post.save()
     return home(request)
   else:
     form = PostForm
