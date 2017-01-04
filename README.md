@@ -1,4 +1,4 @@
-# Art somethingsomething - Project Design (Group 13)
+# Project Polaroid - Project Design (Group 13)
 Our project is a platform for artists to share their creations with ordinary people (art enthusiasts and viewers). It will allow artists to post their work to a feed. Users will then be able to upvote/downvote the various posts and discover the art that is near them.
 
 ## High-level-design:
